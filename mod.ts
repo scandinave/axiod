@@ -185,11 +185,12 @@ axiod.request = ({
     // Check content type and then do the needed transformations
     const contentType = x.headers.get("content-type") || "";
     if (contentType.toLowerCase().indexOf("json") === -1) {
+      const clone = x.clone()
       // Try to convert to json
       try {
-        _data = await x.clone().json();
+        _data = await clone.json();
       } catch (ex) {
-        _data = await x.clone().text();
+        _data = await clone.text();
       }
     } else {
       _data = await x.clone().json();
